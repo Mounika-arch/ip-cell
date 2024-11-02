@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Data</title>
+    <style>
+        body, h1, form, select, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], input[type="date"], select, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-group {
+            display: none; /* Hide checkboxes initially */
+            margin-top: 10px;
+        }
+
+        .checkbox-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .toggle-arrow {
+            cursor: pointer;
+            font-size: 18px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Retrieve Data</h1>
+        <form action="/retrieve-data" method="POST" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="type">Select Type:</label>
+                <select id="type" name="type" required onchange="updateOptions(this.value)">
+                    <option value="">Select Type</option>
+                    <option value="patent">Patent</option>
+                    <option value="designpatent">Design Patent</option>
+                    <option value="copyright">Copyright</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="status-container" style="display: none;">
+                <label for="status">Select Status:</label>
+                <select id="status" name="status" required></select>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Select Duration:</label>
+                <select id="duration" name="duration" required onchange="togglePeriodFields(this.value)">
+                    <option value="">Select Duration</option>
+                    <option value="academic_year">Academic Year</option>
+                    <option value="specify_period">Specify the Period</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="academic-year-group" style="display: none;">
+                <label for="academic_year">Academic Year:</label>
+                <input type="text" id="academic_year" name="academic_year" placeholder="e.g., 2024-2025" />
+            </div>
+
+            <div id="period-group" style="display: none;">
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" />
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" />
+                </div>
+            </div>
+
+            <!-- Department dropdown with hidden checkbox group -->
+            <div class="form-group">
+                <label for="department">
+                    Select Department(s): 
+                    <span class="toggle-arrow" onclick="toggleCheckboxes()">&#9660;</span> <!-- Arrow down icon -->
+                </label>
+                <div class="checkbox-group" id="checkbox-group">
+                    <label><input type="checkbox" name="department[]" value="CSE"> CSE</label>
+                    <label><input type="checkbox" name="department[]" value="IT"> IT</label>
+                    <label><input type="checkbox" name="department[]" value="ECE"> ECE</label>
+                    <label><input type="checkbox" name="department[]" value="EEE"> EEE</label>
+                    <label><input type="checkbox" name="department[]" value="R&A"> R&A</label>
+                    <label><input type="checkbox" name="department[]" value="E&I"> E&I</label>
+                    <label><input type="checkbox" name="department[]" value="BME"> BME</label>
+                    <label><input type="checkbox" name="department[]" value="Aeronautical Engineering"> Aeronautical Engineering</label>
+                    <label><input type="checkbox" name="department[]" value="MECH"> MECH</label>
+                    <label><input type="checkbox" name="department[]" value="AIDS"> AIDS</label>
+                    <label><input type="checkbox" name="department[]" value="CIVIL"> CIVIL</label>
+                </div>
+            </div>
+
+            <input type="hidden" name="countOnly" id="countOnly" value="0">
+
+            <!-- Count button -->
+            <button type="button" onclick="getCount()">Get Count</button>
+            <button type="submit">Retrieve Data</button>
+        </form>
+    </div>
+
+    <script>
+        function updateOptions(type) {
+            const statusContainer = document.getElementById('status-container');
+            const statusSelect = document.getElementById('status');
+            statusContainer.style.display = type ? 'block' : 'none';
+            statusSelect.innerHTML = '';
+
+            if (type === 'patent') {
+                ['Filed', 'Published', 'Granted'].forEach(status => {
+                    statusSelect.add(new Option(status, status.toLowerCase()));
+                });
+            }
+            else if(type=='designpatent')
+            {
+                ['Filed','Registered'].forEach(status => {
+                    statusSelect.add(new Option(status, status.toLowerCase()));
+                });
+            } 
+            else if (type === 'copyright') {
+                ['Filed', 'Registered'].forEach(status => {
+                    statusSelect.add(new Option(status, status.toLowerCase()));
+                });
+            }
+        }
+
+        function togglePeriodFields(duration) {
+            const academicYearGroup = document.getElementById('academic-year-group');
+            const periodGroup = document.getElementById('period-group');
+            academicYearGroup.style.display = 'none';
+            periodGroup.style.display = 'none';
+
+            if (duration === 'academic_year') {
+                academicYearGroup.style.display = 'block';
+            } else if (duration === 'specify_period') {
+                periodGroup.style.display = 'block';
+            }
+        }
+
+        function validateForm() {
+            const checkboxes = document.querySelectorAll('input[name="department[]"]:checked');
+            if (checkboxes.length === 0) {
+                alert('Please select at least one department.');
+                return false;
+            }
+
+            const duration = document.getElementById('duration').value;
+            const academicYear = document.getElementById('academic_year').value;
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+
+            if (duration === 'academic_year' && !academicYear) {
+                alert('Please enter the academic year.');
+                return false;
+            } else if (duration === 'specify_period' && (!startDate || !endDate)) {
+                alert('Please select both start and end dates.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function toggleCheckboxes() {
+            const checkboxGroup = document.getElementById('checkbox-group');
+            const isVisible = checkboxGroup.style.display === 'block';
+            checkboxGroup.style.display = isVisible ? 'none' : 'block';
+        }
+
+        function getCount() {
+            document.getElementById('countOnly').value = '1';
+            document.forms[0].submit();
+        }
+    </script>
+</body>
+</html>

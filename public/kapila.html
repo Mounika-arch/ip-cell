@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Ramakrishna Engineering College - Intellectual Property Rights</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Basic CSS for the layout */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .banner {
+      background-image: url('images/kapila.jpg'); /* Replace with the correct path */
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner h1 {
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    /* Introduction Section */
+    .introduction-section {
+      margin-top: 40px;
+    }
+
+    .introduction-section h2 {
+      font-size: 24px;
+      color: #0c4075; /* Blue color for heading */
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 2px solid #0c4075; /* Thin blue underline */
+      padding-bottom: 5px;
+    }
+
+    .introduction-section p {
+      text-align: justify;
+      color: #333;
+      margin-top: 20px;
+      line-height: 1.8;
+    }
+
+    .introduction-section strong {
+      font-weight: bold;
+    }
+
+    /* Boxes for Members, Funds, Funded Patents */
+    .info-boxes {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+    }
+
+    .info-box {
+      width: 25%;
+      text-align: center;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .info-box:hover {
+      transform: translateY(-10px);
+      cursor: pointer;
+    }
+
+    .info-box img {
+      max-width: 80px;
+      margin-bottom: 20px;
+    }
+
+    .info-box h3 {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .info-box p {
+      color: #555;
+    }
+
+    /* Modal Image Styles */
+    .modal-body {
+      text-align: center;
+    }
+
+    .modal-body img {
+      width: 100%; /* Make image responsive */
+      max-height: 70vh; /* Limit height */
+      object-fit: contain; /* Maintain aspect ratio */
+    }
+
+    .maximize-btn {
+      background-color: transparent;
+      border: none;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    /* Fullscreen styles */
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .fullscreen img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+     /* General header styles */
+header {
+    font-family: Arial, sans-serif;
+}
+
+/* Top blue section */
+.top-header {
+    background-color: #005eb8;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.contact-info span {
+    margin-right: 20px;
+}
+
+.social-icons a {
+    color: white;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.social-icons a:hover {
+    color: #ccc;
+}
+
+/* Bottom white section */
+.bottom-header {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-left img,
+.logo-right img {
+    max-height: 80px; /* Adjust size of the logos */
+}
+
+.college-info h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.college-info p {
+    font-size: 18px;
+    color: #333;
+}
+
+.college-info strong {
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+        .top-header, .bottom-header {
+            flex-direction: column;
+            text-align: center;
+        }
+    
+        .logo-left, .logo-right {
+            margin-bottom: 10px;
+        }
+    }
+  </style>
+</head>
+<body>
+ <!-- Navbar with Logo -->
+ <header>
+  <!-- Top section (blue bar) -->
+  <div class="top-header">
+      <div class="contact-info">
+          <span><i class="fa fa-envelope"></i> Email Us: SREC Email</span>
+          <span><i class="fa fa-phone"></i> Hotline: +91 75300 89996</span>
+          <span>Counselling Code: 2719</span>
+      </div>
+      <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+      
+  </div>
+
+  <!-- Bottom section (white area) -->
+  <div class="bottom-header">
+      <div class="logo-left">
+          <img src="images/srec logo left.jfif" alt="College Logo">
+      </div>
+      <div class="college-info">
+          <h1>Sri Ramakrishna Engineering College</h1>
+          <p>An <strong>AUTONOMOUS</strong> Institution</p>
+      </div>
+      <div class="logo-right">
+          <img src="images/srec logo right.png" alt="SNR Logo">
+      </div>
+  </div>
+</header>
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                  <li class="nav-item"><a class="nav-link" href="index.html" style="color: white;">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="about-ipr.html" style="color: white;" >About IPR</a></li>
+                  <li class="nav-item dropdown" >
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;" >
+                          IP Details
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="color: white;" >
+                              <a class="dropdown-item" href="patent-search2.html" style="color: #343a40;">IP Entry</a>
+                              <a class="dropdown-item" href="patents-college.html" style="color: #343a40;" >Patents</a>
+                              <a class="dropdown-item" href="copyrights.html" style="color: #343a40;">Copyrights</a>
+                              <a class="dropdown-item" href="designs.html" style="color: #343a40;" >Designs</a>
+                      </div>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="gallery.html" style="color: white;">Gallery</a></li>
+                  <li class="nav-item"><a class="nav-link" href="contact.html" style="color: white;">Contact Us</a></li>
+                  <li class="nav-item"><a class="nav-link" href="kapila.html" style="color: white;">Kapila</a></li>
+                  <li class="nav-item"><a class="nav-link" href="idf.html" style="color: white;">IDF</a></li>
+                  <li class="nav-item"><a class="nav-link" href="nippam.html" style="color: white;">Nippam</a></li>
+              </ul>
+          </div>
+      </div>
+      </nav>
+  <!-- Banner Section -->
+  <div class="banner"></div>
+
+  <!-- Page Content -->
+  <div class="content">
+    <!-- Introduction Section Below the Image -->
+    <div class="introduction-section">
+      <h2>Introduction</h2>
+      <p>The scheme provides financial assistance to the institutions that are part of the Higher Education Institutions for filing patents.</p>
+      <p><strong>KAPILA: Kalam Program for IP Literacy and Awareness</strong>, which will create appropriate awareness regarding the need of IP filing, mechanism, and methodology involved in filing IP in India and globally, especially amongst students and faculty of higher education institutions.</p>
+    </div>
+
+    <!-- Info Boxes Section -->
+    <div class="info-boxes">
+      <!-- Members Box -->
+      <div class="info-box" data-toggle="modal" data-target="#membersModal">
+        <img src="images/members-image.jpg" alt="Members Icon">
+        <h3>Members</h3>
+        <p>View members details</p>
+      </div>
+
+      <!-- Funds Box -->
+      <div class="info-box" data-toggle="modal" data-target="#fundsModal">
+        <img src="images/funded.png" alt="Funds Icon">
+        <h3>Funds</h3>
+        <p>Check available funds</p>
+      </div>
+
+      <!-- Funded Patents Box -->
+      <div class="info-box" data-toggle="modal" data-target="#patentsModal">
+        <img src="images/fundedpatent.png" alt="Funded Patents Icon">
+        <h3>Funded Patents</h3>
+        <p>See funded patents</p>
+      </div>
+    </div>
+
+    <!-- Members Modal -->
+    <div class="modal fade" id="membersModal" tabindex="-1" aria-labelledby="membersModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="membersModalLabel">Members</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Details about members...</p>
+            <img src="images/members.png" alt="Members Image" class="img-fluid">
+            <button class="maximize-btn" id="maximizeMembers">Maximize Image</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Funds Modal -->
+<div class="modal fade" id="fundsModal" tabindex="-1" aria-labelledby="fundsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="fundsModalLabel">Funds</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- Instead of an img tag, use a link to the PDF -->
+              <a href="/funds.pdf" target="_self"> <!-- target="_self" ensures it opens in the same tab -->
+                  <img src="images/pdfimage.jpg" alt="Funds PDF" class="img-fluid"style="width: 50px; height: auto;">
+              </a>
+              <p>Details about funds...</p>
+          </div>
+      </div>
+  </div>
+</div>
+
+    <!-- Funded Patents Modal -->
+    <div class="modal fade" id="patentsModal" tabindex="-1" aria-labelledby="patentsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="patentsModalLabel">Funded Patents</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img src="images/funds.png" alt="Funded Patents Image" class="img-fluid">
+            <p>Details about funded patents...</p>
+            <button class="maximize-btn" id="maximizePatents">Maximize Image</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fullscreen Container -->
+    <div id="fullscreenContainer" class="fullscreen" style="display:none;">
+      <span class="close-fullscreen" style="color: white; position: absolute; top: 20px; right: 30px; font-size: 30px; cursor: pointer;">&times;</span>
+      <img src="" id="fullscreenImage" alt="Fullscreen Image">
+    </div>
+  </div>
+    <!-- Footer -->
+    <footer class="mt-5 text-center bg-primary text-white p-4">
+      <h3>Contact Us</h3>
+      <p>Toll Free: 1800 889 9888, 1800 425 4300</p>
+      <p>Email: <a href="mailto:info@srec.ac.in" class="text-white">info@srec.ac.in</a></p>
+      <p>Address: Sri Ramakrishna Engineering College, Vattamalaipalayam, N.G.G.O Colony (Post), Coimbatore - 641 022, Tamil Nadu, India</p>
+      <p>©2020 - 2024. Sri Ramakrishna Engineering College. All Rights Reserved.</p>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Fullscreen functionality
+    function toggleFullscreen(imgSrc) {
+      const container = document.getElementById('fullscreenContainer');
+      const fullImage = document.getElementById('fullscreenImage');
+  
+      if (container.style.display === "none" || container.style.display === "") {
+        fullImage.src = imgSrc;
+        container.style.display = "flex";
+      } else {
+        container.style.display = "none";
+      }
+    }
+  
+    // Add event listener to the maximize button for members
+    document.getElementById('maximizeMembers').addEventListener('click', function () {
+      toggleFullscreen('images/members.png');
+    });
+  
+    // Add event listener to the maximize button for funded patents
+    document.getElementById('maximizePatents').addEventListener('click', function () {
+      toggleFullscreen('images/funds.png'); // Replace with actual image path
+    });
+  
+    // Add event listener for close fullscreen button
+    document.querySelector('.close-fullscreen').addEventListener('click', function () {
+      document.getElementById('fullscreenContainer').style.display = 'none';
+    });
+  </script>
+  
+</body>
+</html>

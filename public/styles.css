@@ -1,0 +1,278 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    color: #333; /* Darker text color */
+    margin: 0;
+    padding: 0;
+    
+}
+
+.container {
+    
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero {
+    background-image: linear-gradient(to right, #673ab7, #2d8ba8); /* Purple gradient */
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #e0e0e0;
+}
+
+.btn-hero {
+    background-color: #03a9f4; /* Teal button */
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-hero:hover {
+    background-color: #0288d1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Navbar */
+.navbar {
+    background-color: #005eb8; /* Deep blue background */
+    padding: 5px 0; /* Adjust this to reduce height */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    height: 50px; /* Set a specific height for the navbar */
+}
+
+/* Nav Links */
+.navbar a {
+    color: #fff;
+    font-weight: 600;
+    transition: color 0.3s;
+    padding: 10px 15px; /* Reduce padding for less height */
+    line-height: 30px; /* Adjust line height to center text vertically */
+    font-size: 20px; /* Adjust font size */
+}
+
+.navbar a:hover {
+    color: #ffeb3b; /* Yellow highlight on hover */
+}
+
+
+
+.dashboard {
+    background-color: #fff;
+    padding: 20px 0;
+    border-radius: 15px;
+    margin-top: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.icon-box {
+    background-color: #f7f7f7; /* Light gray background */
+    padding: 30px; /* Increased padding */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 20px;
+    width: 300px; /* Fixed width */
+}
+
+.icon-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.icon-box i {
+    font-size: 60px; /* Increased icon size */
+    margin-bottom: 20px;
+    color: #2196f3;
+}
+
+.icon-box .number {
+    font-size: 48px; /* Increased number size */
+    font-weight: bold;
+    color: #333;
+}
+
+.icon-box .description {
+    font-size: 18px; /* Increased description size */
+    font-weight: 400;
+    color: #666;
+}
+
+
+/* Highlights Section */
+.highlights-section {
+    margin-top: 50px;
+}
+
+.highlight {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.highlight:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.highlight img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.highlight-description {
+    padding: 15px;
+    background-color: #f7f7f7;
+    font-weight: 500;
+    border-radius: 0 0 10px 10px;
+    margin-top: 15px;
+}
+
+/* Footer */
+footer {
+    background-color: #003399; /* Set to match the image background color */
+    color: white; /* Text color white for better contrast */
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 50px;
+    
+}
+
+footer .contact-info {
+    margin: 15px 0;
+}
+
+footer .contact-info a {
+    color: #ffeb3b; /* Yellow link color for better contrast */
+    text-decoration: none;
+}
+
+footer .contact-info a:hover {
+    text-decoration: underline;
+}
+
+.navbar {
+    position: relative; /* Optional: if you want to control the z-index */
+    padding: 10px 0; /* Adjust padding as needed */
+}
+
+.logo-left, .logo-right {
+    width: 100px; /* Ensure consistent logo size */
+}
+/* Logos */
+.logo {
+    position: fixed;
+    top: 20px; /* Adjust as needed */
+    width: 100px; /* Adjust as needed */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+.logo.left {
+    left: 20px; /* Left corner */
+}
+
+.logo.right {
+    right: 20px; /* Right corner */
+}
+
+/* Carousel */
+/* .carousel {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 40px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.carousel img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    font-size: 30px;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+} */
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    linear-gradient(to bottom right, #2196f3, #03a9f4)
+    color: #fff;
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+/* Custom Button Styles */
+.btn-custom {
+    background-color: #2d8ba8; /* Purple button */
+    color: #fff;
+    border-radius: 30px;
+    padding: 12px 30px;
+    font-weight: bold;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-custom:hover {
+    background-color: #2d8ba8;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    h2, h3 {
+        font-size: 1.8rem;
+    }
+
+    .icon-box .description {
+        font-size: 1.2rem;
+    }
+
+    .highlight img {
+        height: 250px; /* Increased image height for smaller screens */
+    }
+    
+}
+

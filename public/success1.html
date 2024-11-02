@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deletion Success</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 24px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="message" id="success-message"></div>
+
+    <script>
+
+        // Retrieve the query parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+
+    // Display the message if it exists
+    if (message) {
+        document.getElementById('success-message').textContent = message;
+    } else {
+        document.getElementById('success-message').textContent = 'Successfully deleted.';
+    }
+    </script>
+</body>
+</html>

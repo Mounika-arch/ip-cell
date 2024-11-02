@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Success</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 24px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="message" id="success-message"></div>
+
+    <script>
+        // Retrieve the message and formId from session storage
+        const message = sessionStorage.getItem('submissionMessage');
+        const formId = sessionStorage.getItem('formId');
+
+        // Display the message based on the form ID (if needed, you can handle different form IDs separately)
+        if (message && formId) {
+            document.getElementById('success-message').textContent = message;
+
+            // You could also add more logic here to display different messages based on formId
+
+            // Clear the message from session storage after displaying
+            sessionStorage.removeItem('submissionMessage');
+            sessionStorage.removeItem('formId');
+        } else {
+            document.getElementById('success-message').textContent = 'successfully submitted.';
+        }
+    </script>
+</body>
+</html>
