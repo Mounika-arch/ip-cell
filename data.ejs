@@ -1,0 +1,47 @@
+<!-- views/data.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Results</h1>
+    <% if (data.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <% headers.forEach(header => { %>
+                        <th><%= header %></th>
+                    <% }); %>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(row => { %>
+                    <tr>
+                        <% headers.forEach(header => { %>
+                            <td><%= row[header] || 'N/A' %></td>
+                        <% }); %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No records found.</p>
+    <% } %>
+</body>
+</html>

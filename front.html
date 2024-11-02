@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Cell</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color:#003399;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .section {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #003399;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #003399;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 on page load
+            $('select.select2').select2({
+                placeholder: "Select departments",
+                width: '100%'
+            });
+
+            // Show patent form based on status
+            function showPatentForm(status) {
+                $('#patent-form-container form').hide();
+                $(`#${status}-form`).show();
+                // Reinitialize Select2 for newly visible select elements
+                $(`#${status}-form select.select2`).select2({
+                    placeholder: "Select departments",
+                    width: '100%'
+                });
+            }
+
+            // Fetch data for Published or Granted based on Application Number
+            function fetchPatentData(applicationNumber, formId) {
+                $.ajax({
+                    url: `/fetchPatentData?applicationNumber=${applicationNumber}`,
+                    type: 'GET',
+                    success: function(data) {
+                        if (data) {
+                            // Populate the fields with the fetched data (non-editable)
+                            $(`#${formId} #applicant-name`).val(data.applicantName).prop('readonly', true);
+                            $(`#${formId} #title-of-invention`).val(data.titleOfInvention).prop('readonly', true);
+                            $(`#${formId} #academic-year`).val(data.academicYear).prop('readonly', true);
+                            $(`#${formId} #department`).val(data.department).trigger('change').prop('disabled', true);
+                        } else {
+                            alert('No data found for the given Application Number.');
+                        }
+                    },
+                    error: function() {
+                        alert('Error fetching data.');
+                    }
+                });
+            }
+
+            // Show the appropriate form and handle fetching data
+            $('#patent-status').change(function() {
+                const status = $(this).val();
+                showPatentForm(status);
+                
+                if (status === 'published' || status === 'granted') {
+                    // Listen for application number input for fetching data
+                    $(`#${status}-form #application-number`).on('blur', function() {
+                        const appNumber = $(this).val();
+                        if (appNumber) {
+                            fetchPatentData(appNumber, `${status}-form`);
+                        }
+                    });
+                }
+            });
+
+             // Show design patent form based on status
+        function showDesignPatentForm(status) {
+            $('#designpatent-form-container form').hide();
+            $(`#design${status}-form`).show();
+            // Reinitialize Select2 for newly visible select elements
+            $(`#design${status}-form select.select2`).select2({
+                placeholder: "Select departments",
+                width: '100%'
+            });
+        }
+        document.getElementById('design-number').addEventListener('input', function() {
+        var input = this.value;
+        var regex = /^\d{6}-\d{3}$/; // Adjust this regex pattern based on your desired format (e.g., 4 digits - 4 digits - 4 digits)
+        var errorMessage = document.getElementById('error-message');
+
+        if (!regex.test(input)) {
+            errorMessage.style.display = 'inline';
+            this.setCustomValidity("Please enter a valid design number with hyphens (e.g., 1234-5678-9012).");
+        } else {
+            errorMessage.style.display = 'none';
+            this.setCustomValidity(''); // Clear the error if input is valid
+        }
+    });
+
+    document.getElementById('another-design-number').addEventListener('input', function() {
+        var input = this.value;
+        var regex = /^\d{6}-\d{3}$/; // Adjust this regex pattern based on your desired format
+        var errorMessage = document.getElementById('another-error-message');
+
+        if (!regex.test(input)) {
+            errorMessage.style.display = 'inline';
+            this.setCustomValidity("Please enter a valid design number with hyphens (e.g., 1234-5678-9012).");
+        } else {
+            errorMessage.style.display = 'none';
+            this.setCustomValidity(''); // Clear the error if input is valid
+        }
+    });
+
+        // Fetch data for Registered based on Design Number
+    function fetchDesignPatentData(designNumber, formId) {
+        $.ajax({
+            url: `/fetchDesignPatentData?designNumber=${designNumber}`,
+            type: 'GET',
+            success: function(data) {
+                if (data) {
+                    // Populate the fields with the fetched data (non-editable)
+                    $(`#${formId} #applicant-name-registered`).val(data.applicantName).prop('readonly', true);
+                    $(`#${formId} #title-of-invention-registered`).val(data.titleOfInvention).prop('readonly', true);
+                    $(`#${formId} #academic-year-registered`).val(data.academicYear).prop('readonly', true);
+                    $(`#${formId} #department-registered`).val(data.department).trigger('change').prop('disabled', true);
+                } else {
+                    alert('No data found for the given Design Number.');
+                }
+            },
+            error: function() {
+                alert('Error fetching data.');
+            }
+        });
+    }
+
+
+        // Show the appropriate form and handle fetching data
+        $('#designpatent-status').change(function() {
+            const status = $(this).val();
+            showDesignPatentForm(status);
+
+            if (status === 'registered') {
+                // Listen for design number input for fetching data
+                $(`#design${status}-form #another-design-number`).on('blur', function() {
+                    const designNumber = $(this).val();
+                    if (designNumber) {
+                        fetchDesignPatentData(designNumber, `design${status}-form`);
+                    }
+                });
+            }
+        });
+
+        // Show copyright form based on status
+function showCopyrightForm(status) {
+    $('#copyright-form-container form').hide();  // Hide all forms
+    $(`#copyright-${status}-form`).show();       // Show the selected form based on status
+
+    // Reinitialize Select2 for newly visible select elements
+    $(`#copyright-${status}-form select.select2`).select2({
+        placeholder: "Select departments",
+        width: '100%'
+    });
+}
+
+// Fetch data for Registered based on Registration Number
+function fetchCopyrightData(registrationNumber) {
+    $.ajax({
+        url: `/fetchCopyrightData?registrationNumber=${registrationNumber}`,
+        type: 'GET',
+        success: function(data) {
+            if (data) {
+                // Populate the fields with the fetched data (non-editable)
+                $('#copyright-applicant-name-registered').val(data.authorName).prop('readonly', true);
+                $('#copyright-title-registered').val(data.titleOfWork).prop('readonly', true);
+                $('#copyright-academic-year-registered').val(data.academicYear).prop('readonly', true);
+                $('#copyright-department-registered').val(data.department).trigger('change').prop('disabled', true);
+            } else {
+                alert('No data found for the given Registration Number.');
+            }
+        },
+        error: function() {
+            alert('Error fetching data.');
+        }
+    });
+}
+
+// Show the appropriate form and handle fetching data
+$('#copyright-status').change(function() {
+    const status = $(this).val();
+    showCopyrightForm(status);
+    
+    if (status === 'registered') {
+        // Listen for registration number input for fetching data
+        $('#copyright-registration-number-registered').on('blur', function() {
+            const regNumber = $(this).val();
+            if (regNumber) {
+                fetchCopyrightData(regNumber);
+            }
+        });
+    } else {
+        // Remove the event listener if status is not registered
+        $('#copyright-registration-number-registered').off('blur');
+    }
+});
+
+// Function to handle form submission dynamically for all forms ending with -form
+function handleFormSubmissions() {
+    // Select all forms whose id ends with '-form'
+    const forms = document.querySelectorAll('form[id$="-form"]');
+
+    forms.forEach(form => {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Save the success message in session storage
+                    sessionStorage.setItem('submissionMessage', result.message);
+
+                    // Redirect to the success page
+                    window.location.href = '/success-page';
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('An error occurred while submitting the form or enter valid number.');
+            }
+        });
+    });
+}
+
+// Call the function when the page loads
+window.onload = handleFormSubmissions;
+
+
+
+    });
+
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>Sri Ramakrishna Engineering College - IP Cell</h1>
+    </header>
+
+    <nav>
+        <a href="#patent">Patent</a>
+        <a href="#designpatent">Design Patent</a>
+        <a href="#copyright">Copyright</a>
+        <a href="#retrieve">Retrieve</a>
+        <a href="#delete" onclick="showDeleteForm()">Delete Entry</a>
+    </nav>
+
+    <section id="patent" class="section">
+        <h2>Patent</h2>
+        <div class="form-group">
+            <label for="patent-status">Status:</label>
+            <select id="patent-status" name="patent-status">
+                <option value="">Select Status</option>
+                <option value="filed">Filed</option>
+                <option value="published">Published</option>
+                <option value="granted">Granted</option>
+            </select>
+        </div>
+    
+        <div id="patent-form-container">
+            <!-- Filed Form -->
+            <form id="filed-form" class="form-group" action="/submitPatent" method="POST" enctype="multipart/form-data" style="display: none;">
+                <h3>Filed Patent</h3>
+                <div class="form-group">
+                    <label for="application-number">Application Number:</label>
+                    <input type="text" id="application-number" name="applicationNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name">Applicant Name/Inventors:</label>
+                    <input type="text" id="applicant-name" name="applicantName" required />
+                </div>
+                <div class="form-group">
+                    <label for="title-of-invention">Title of Invention:</label>
+                    <input type="text" id="title-of-invention" name="titleOfInvention" required />
+                </div>
+                <div class="form-group">
+                    <label for="date-of-filing">Date of Filing:</label>
+                    <input type="date" id="date-of-filing" name="dateOfFiling" required />
+                </div>
+                <div class="form-group">
+                    <label for="academic-year">Academic Year:</label>
+                    <input type="text" id="academic-year" name="academicYear" required />
+                </div>
+                <div class="form-group">
+                    <label for="department">Choose your options:</label>
+                    <select id="department" name="department[]" multiple="multiple" class="select2">
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upload-file">Upload File :</label>
+                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+                <div id="message"></div>
+
+            </form>
+    
+            <!-- Published Form -->
+            <form id="published-form" class="form-group" action="/submitPublishedPatent" enctype="multipart/form-data" method="POST" style="display: none;">
+                <h3>Published Patent</h3>
+                <div class="form-group">
+                    <label for="application-number">Application Number:</label>
+                    <input type="text" id="application-number" name="applicationNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name">Applicant Name/Inventors:</label>
+                    <input type="text" id="applicant-name" name="applicantName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="title-of-invention">Title of Invention:</label>
+                    <input type="text" id="title-of-invention" name="titleOfInvention" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="date-of-publication">Date of Publication:</label>
+                    <input type="date" id="date-of-publication" name="dateOfPublication" required />
+                </div>
+                <div class="form-group">
+                    <label for="academic-year">Academic Year:</label>
+                    <input type="text" id="academic-year" name="academicYear" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="department">Choose your options:</label>
+                    <select id="department" name="department[]" multiple="multiple" class="select2" disabled>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upload-file">Upload File :</label>
+                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+
+            <!-- Granted Form -->
+            <form id="granted-form" class="form-group" action="/submitGrantedPatent" enctype="multipart/form-data" method="POST" style="display: none;">
+                <h3>Granted Patent</h3>
+                <div class="form-group">
+                    <label for="application-number">Application Number:</label>
+                    <input type="text" id="application-number" name="applicationNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name">Applicant Name/Inventors:</label>
+                    <input type="text" id="applicant-name" name="applicantName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="title-of-invention">Title of Invention:</label>
+                    <input type="text" id="title-of-invention" name="titleOfInvention" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="grant-number">Grant number:</label>
+                    <input type="text" id="grantNumber" name="grantNumber" required/>
+                </div>
+                <div class="form-group">
+                    <label for="date-of-grant">Date of Grant:</label>
+                    <input type="date" id="date-of-grant" name="dateOfGrant" required />
+                </div>
+                <div class="form-group">
+                    <label for="academic-year">Academic Year:</label>
+                    <input type="text" id="academic-year" name="academicYear" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="department">Choose your options:</label>
+                    <select id="department" name="department[]" multiple="multiple" class="select2" disabled>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upload-file">Upload File :</label>
+                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <section id="designpatent" class="section">
+        <h2>Design Patent</h2>
+        <div class="form-group">
+            <label for="designpatent-status">Status:</label>
+            <select id="designpatent-status" name="designpatent-status">
+                <option value="">Select Status</option>
+                <option value="filed">Filed</option>
+                <option value="registered">Registered</option>
+            </select>
+        </div>
+    
+        <div id="designpatent-form-container">
+            <!-- Design Filed Form -->
+            <form id="designfiled-form" class="form-group" action="/submitDesignFiled" method="POST" enctype="multipart/form-data" style="display: none;">
+                <h3>Design Filed Patent</h3>
+                <div class="form-group">
+                    <label for="design-number">Design Number:</label>
+                    <input type="text" id="design-number" name="designNumber" required />
+                    <span id="error-message" style="color:red; display:none;">Please enter a valid design number with hyphens (e.g., 1234-5678-9012)</span>
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name">Applicant Name/Inventors:</label>
+                    <input type="text" id="applicant-name" name="applicantName" required />
+                </div>
+                <div class="form-group">
+                    <label for="title-of-invention">Title of Invention:</label>
+                    <input type="text" id="title-of-invention" name="titleOfInvention" required />
+                </div>
+                <div class="form-group">
+                    <label for="date-of-filing">Date of Filing:</label>
+                    <input type="date" id="date-of-filing" name="dateOfFile" required />
+                </div>
+                <div class="form-group">
+                    <label for="academic-year">Academic Year:</label>
+                    <input type="text" id="academic-year" name="academicYear" required />
+                </div>
+                <div class="form-group">
+                    <label for="department">Choose your options:</label>
+                    <select id="department" name="department[]" multiple="multiple" class="select2">
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upload-file">Upload File:</label>
+                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+    
+            <!-- Design Registered Form -->
+            <form id="designregistered-form" class="form-group" action="/submitDesignRegistered" method="POST" enctype="multipart/form-data" style="display: none;">
+                <h3>Design Registered Patent</h3>
+                <div class="form-group">
+                    <label for="another-design-number">Design Number:</label>
+                    <input type="text" id="another-design-number" name="designNumber" required />
+                    <span id="another-error-message" style="color:red; display:none;">Please enter a valid design number.</span>
+                </div>
+                <div class="form-group">
+                    <label for="applicant-name-registered">Applicant Name/Inventors:</label>
+                    <input type="text" id="applicant-name-registered" name="applicantName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="title-of-invention-registered">Title of Invention:</label>
+                    <input type="text" id="title-of-invention-registered" name="titleOfInvention" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="date-of-registration">Date of Registration:</label>
+                    <input type="date" id="date-of-registration" name="dateOfRegistration" required />
+                </div>
+                <div class="form-group">
+                    <label for="academic-year-registered">Academic Year:</label>
+                    <input type="text" id="academic-year-registered" name="academicYear" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="department-registered">Choose your options:</label>
+                    <select id="department-registered" name="department[]" multiple="multiple" class="select2" disabled>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upload-file-registered">Upload File:</label>
+                    <input type="file" id="upload-file-registered" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="copyright" class="section">
+        <h2>Copyright</h2>
+        <div class="form-group">
+            <label for="copyright-status">Status:</label>
+            <select id="copyright-status" name="copyright-status">
+                <option value="">Select Status</option>
+                <option value="filed">Filed</option>
+                <option value="registered">Registered</option>
+            </select>
+        </div>
+    
+        <div id="copyright-form-container">
+            <!-- Filed Form -->
+            <form id="copyright-filed-form" class="form-group" action="/submitCopyright" method="POST" enctype="multipart/form-data" style="display: none;">
+                <h3>Filed Copyright</h3>
+                
+                <div class="form-group">
+                    <label for="copyright-registration-number-filed">Registration Number:</label>
+                    <input type="text" id="copyright-registration-number-filed" name="registrationNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-applicant-name-filed">Applicant Name/Creators:</label>
+                    <input type="text" id="copyright-applicant-name-filed" name="authorName" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-title-filed">Title:</label>
+                    <input type="text" id="copyright-title-filed" name="titleOfWork" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-date-of-filing">Date of Filing:</label>
+                    <input type="date" id="copyright-date-of-filing" name="dateOfFiling" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-academic-year-filed">Academic Year:</label>
+                    <input type="text" id="copyright-academic-year-filed" name="academicYear" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-department-filed">Choose your options:</label>
+                    <select id="copyright-department-filed" name="department[]" multiple="multiple" class="select2">
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="copyright-upload-file-filed">Upload File :</label>
+                    <input type="file" id="copyright-upload-file-filed" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+    
+            <!-- Registered Form -->
+            <form id="copyright-registered-form" class="form-group" action="/submitRegisteredCopyright" enctype="multipart/form-data" method="POST" style="display: none;">
+                <h3>Registered Copyright</h3>
+                <div class="form-group">
+                    <label for="copyright-registration-number-filed">Registration Number:</label>
+                    <input type="text" id="copyright-registration-number-registered" name="registrationNumber" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-applicant-name-registered">Applicant Name/Creators:</label>
+                    <input type="text" id="copyright-applicant-name-registered" name="authorName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-title-registered">Title:</label>
+                    <input type="text" id="copyright-title-registered" name="titleOfWork" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-date-of-registration">Date of Creation:</label>
+                    <input type="date" id="copyright-date-of-registration" name="dateOfCreation" required />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-academic-year-registered">Academic Year:</label>
+                    <input type="text" id="copyright-academic-year-registered" name="academicYear" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="copyright-department-registered">Choose your options:</label>
+                    <select id="copyright-department-registered" name="department[]" multiple="multiple" class="select2" disabled>
+                        <option value="CSE">CSE</option>
+                        <option value="IT">IT</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="E&I">E&I</option>
+                        <option value="R&A">R&A</option>
+                        <option value="BME">BME</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+                        <option value="AIDS">AIDS</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="copyright-upload-file-registered">Upload File :</label>
+                    <input type="file" id="copyright-upload-file-registered" name="uploadFile" accept="image/*,application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section id="retrieve" class="section">
+        <h2>Retrieve Files</h2>
+        <form action="/retrieve-data" method="GET">
+            <div class="form-group">
+                <button type="submit">Retrieve</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Delete Entry Form in the same HTML file -->
+     <section id="delete" class="section">
+        <h2>Delete Records</h2>
+<div id="deleteForm">
+    <form action="/deletePatent" method="POST">
+        <label for="applicationNumberOrDesignNumber">Enter Application Number or Design Number:</label>
+        <input type="text" id="applicationNumberOrDesignNumber" name="applicationNumberOrDesignNumber" required>
+        
+        <div class="form-group">
+            <button type="submit" style="margin-top: 10px;">Delete</button>
+        </div>
+    </form>
+    
+</div>
+</section>
+<script>
+    document.getElementById('deletePatentForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const applicationNumberOrDesignNumber = document.getElementById('applicationNumberOrDesignNumber').value;
+
+        try {
+            const response = await fetch('/deletePatent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ applicationNumberOrDesignNumber })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Store the success message in sessionStorage
+                sessionStorage.setItem('submissionMessage', result.message);
+                sessionStorage.setItem('formId', 'deletePatent');
+
+                // Redirect to the success page
+                window.location.href = '/success1.html';
+            } else {
+                // Handle error messages here
+                alert(result.message);
+            }
+        } catch (error) {
+            alert('Error deleting record. Please try again.');
+        }
+    });
+</script>
+
+
+</body>
+</html>

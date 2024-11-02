@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Ramakrishna Engineering College - Intellectual Property Rights</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .content-section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #007bff;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        @media (max-width: 768px) {
+            .content-section {
+                padding: 15px;
+            }
+            .admissions-sidebar {
+                padding: 15px;
+            }
+        }
+
+        .event-img {
+            width: 100%;
+            height: 300px; /* Fixed height for all images */
+            object-fit: cover; /* Ensures images cover the area without stretching */
+        }
+        .event-description {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .event-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .event-col {
+            flex: 0 0 48%; /* Each column takes 48% of the row */
+            margin-bottom: 20px;
+            max-width: 48%; /* Ensures the width is fixed */
+        }
+         /* General header styles */
+header {
+    font-family: Arial, sans-serif;
+}
+
+/* Top blue section */
+.top-header {
+    background-color: #005eb8;
+    color: white;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.contact-info span {
+    margin-right: 20px;
+}
+
+.social-icons a {
+    color: white;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.social-icons a:hover {
+    color: #ccc;
+}
+
+/* Bottom white section */
+.bottom-header {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-left img,
+.logo-right img {
+    max-height: 80px; /* Adjust size of the logos */
+}
+
+.college-info h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.college-info p {
+    font-size: 18px;
+    color: #333;
+}
+
+.college-info strong {
+    font-weight: bold;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+        .top-header, .bottom-header {
+            flex-direction: column;
+            text-align: center;
+        }
+    
+        .logo-left, .logo-right {
+            margin-bottom: 10px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navbar with Logo -->
+<header>
+    <!-- Top section (blue bar) -->
+    <div class="top-header">
+        <div class="contact-info">
+            <span><i class="fa fa-envelope"></i> Email Us: SREC Email</span>
+            <span><i class="fa fa-phone"></i> Hotline: +91 75300 89996</span>
+            <span>Counselling Code: 2719</span>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+    </div>
+
+    <!-- Bottom section (white area) -->
+    <div class="bottom-header">
+        <div class="logo-left">
+            <img src="images/srec logo left.jfif" alt="College Logo">
+        </div>
+        <div class="college-info">
+            <h1>Sri Ramakrishna Engineering College</h1>
+            <p>An <strong>AUTONOMOUS</strong> Institution</p>
+        </div>
+        <div class="logo-right">
+            <img src="images/srec logo right.png" alt="SNR Logo">
+        </div>
+    </div>
+</header>
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html" style="color: white;">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about-ipr.html" style="color: white;" >About IPR</a></li>
+                    <li class="nav-item dropdown" >
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;" >
+                            IP Details
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="color: white;" >
+                                <a class="dropdown-item" href="patent-search2.html" style="color: #343a40;">IP Entry</a>
+                                <a class="dropdown-item" href="patents-college.html" style="color: #343a40;" >Patents</a>
+                                <a class="dropdown-item" href="copyrights.html" style="color: #343a40;">Copyrights</a>
+                                <a class="dropdown-item" href="designs.html" style="color: #343a40;" >Designs</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html" style="color: white;">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html" style="color: white;">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kapila.html" style="color: white;">Kapila</a></li>
+                    <li class="nav-item"><a class="nav-link" href="idf.html" style="color: white;">IDF</a></li>
+                    <li class="nav-item"><a class="nav-link" href="nippam.html" style="color: white;">Nippam</a></li>
+                </ul>
+            </div>
+        </div>
+        </nav>
+    <!-- Events Section -->
+    <div class="container content-section mt-5">
+        <h2>Events</h2>
+        <p>Explore the images from various events, workshops, and activities conducted year by year at Sri Ramakrishna Engineering College.</p>
+        
+        <!-- Events by Year -->
+        <h3>2024 Events</h3>
+        <div class="event-row">
+            <div class="event-col">
+                <img src="\report\2024\image 1.PNG" class="img-fluid event-img" alt="Event 1">
+                <p class="event-description">A photo of the seminar hall filled with students and faculty participants, attentively listening to the workshop. The speaker, Mr. Muruganantham Senthilrajan, is presenting on the significance of intellectual property rights.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 2.PNG" class="img-fluid event-img" alt="Event 2">
+                <p class="event-description">A close-up shot of Mr. Ravi, Assistant Professor of Mechanical Engineering, explaining the intricacies of patent drafting. Participants are engaged, taking notes as he illustrates the process with a real-world example.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 3.png" class="img-fluid event-img" alt="Event 3">
+                <p class="event-description">A group photo capturing the participants along with the guest speakers. Smiles and certificates in hand, attendees are celebrating the successful completion of the workshop.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 4.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description">The event poster detailing the "Workshop on Intellectual Property Rights," organized by SREC CoIN, MoE-IIC in association with SREC IPR Cell. The poster highlights the date, venue, and program schedule.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 5.PNG" class="img-fluid event-img" alt="Event 5">
+                <p class="event-description">Students engaged in the quiz event, actively participating and answering questions about intellectual property rights.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 6.PNG" class="img-fluid event-img" alt="Event 6">
+                <p class="event-description">Winners of the quiz competition proudly receiving their cash prizes, celebrating their achievements with faculty members.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 7.png" class="img-fluid event-img" alt="Event 7">
+                <p class="event-description">A team enthusiastically presenting their innovative idea during the idea pitching competition, with an engaged audience.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2024/image 8.png" class="img-fluid event-img" alt="Event 8">
+                <p class="event-description">The event poster for the World Intellectual Property Day Celebration, highlighting the theme, date, and venue details.</p>
+            </div>
+        </div>
+
+        <h3>2023 Events</h3>
+        <div class="event-row">
+            <div class="event-col">
+                <img src="./report/2023/image 2.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description" >On February 10, 2023, a guest lecture on "IP Filing and Commercialization" was held at Sri Ramakrishna Engineering College, organized in collaboration with MHRD-IIC and the CSI-Student’s Branch.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2023/image 3.png" class="img-fluid event-img" alt="Event 3">
+                <p class="event-description"> Ms. Elizabeth Puthran, a renowned Patent and Trademark Attorney from Puthran & Associates, delivered an insightful talk on the significance of intellectual property rights for faculty members.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2023/image 4.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description"> Dr. M.S. Geetha Devasena, Professor of CSE, provided the opening remarks, welcoming attendees and setting the context for the importance of the topic discussed.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2023/image 5.png" class="img-fluid event-img" alt="Event 3">
+                <p class="event-description">Ms. Elizabeth Puthran, the guest lecturer, receives an award from Grace Selvarani, Head of the Department of Computer Science and Engineering, recognizing her valuable contribution to the seminar on IP Filing and Commercialization.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2023/image 6.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description">On July 22, 2023, the SREC IP Cell hosted a session on patent drafting led by Patent Attorney Mr. Muruganantham, attended by 70 faculty members. The session covered the process of patenting ideas, including writing descriptions and claims, with opening remarks by Dr. M. S. Geetha Devasena.</p>
+            </div>
+        </div>
+        <h3>2022 Events</h3>
+        <div class="event-row">
+            <div class="event-col">
+                <img src="./report/2022/image 1.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description" >The Sri Ramakrishna Engineering College conducted an Intellectual Property Rights (IPR) awareness session on March 25, 2022, under the National Intellectual Property Awareness Mission (NIPAM). Mr. P. Hariprasath, Examiner of Patents & Designs from the Intellectual Property Office, Chennai, delivered a detailed talk on IPR.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 2.png" class="img-fluid event-img" alt="Event 3">
+                <p class="event-description"> The session introduced over 1500 students and 72 faculty members to various forms of intellectual property rights, fostering creativity and encouraging them to innovate. The program ignited intellectual curiosity, guiding participants on how to turn their innovative ideas into valuable IP assets.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 3.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description"> Under the Government of India's NIPAM initiative, the awareness program on IPR was a major success at SREC, providing students and faculty with knowledge on patents, copyrights, and more. The event marked a significant step in nurturing future innovators.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 4.png" class="img-fluid event-img" alt="Event 3">
+                <p class="event-description">Students eagerly registering for the IDEA TO IP Seminar and Quiz event at Sri Ramakrishna Engineering College.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 5.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description">Students participating in the quiz based on intellectual property, guided by the talk from Mr. S. Ravi.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 6.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description">Faculty members presenting cash prizes to the winning teams of the quiz competition.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2022/image 7.png" class="img-fluid event-img" alt="Event 4">
+                <p class="event-description">Staff members awarding prizes to the students, celebrating their achievement in the quiz event.</p>
+            </div>
+        </div>
+
+        <h3>2021 Events</h3>
+        <div class="event-row">
+            <div class="event-col">
+                <img src="./report/2021/image 1.png" class="img-fluid event-img" alt="Event 5">
+                <p class="event-description">The image showcases the title of the workshop "IPR and IP Management for Start-Up," emphasizing the focus on intellectual property rights and their significance in fostering innovation and entrepreneurship.</p>
+            </div>
+            <div class="event-col">
+                
+                <img src="./report/2021/image 2.png" class="img-fluid event-img" alt="Event 6">
+                <p class="event-description">The image presents a visual representation of the project discussed during the workshop, illustrating key concepts related to intellectual property rights and their applications in various industries.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2021/image 3.png" class="img-fluid event-img" alt="Event 7">
+                <p class="event-description">The image captures the engaged participants, including faculty members and students from different streams, actively participating in the workshop and enhancing their understanding of IPR and patent management.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2021/image 4.png" class="img-fluid event-img" alt="Event 8">
+                <p class="event-description">The image captures the engaged participants, including faculty members and students from different streams, actively participating in the workshop and enhancing their understanding of IPR and patent management.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2021/image 5.png" class="img-fluid event-img" alt="Event 9">
+                <p class="event-description">The image shows that the patent search and management was effectively demonstrated during the workshop.</p>
+            </div>
+            <div class="event-col">
+                <img src="./report/2021/image 6.png" class="img-fluid event-img" alt="Event 10">
+                <p class="event-description">The image captures the introduction of the resource person, given by Mr. S. Ranjithkumar, Assistant Professor/CSE.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="mt-5 text-center bg-primary text-white p-4">
+        <h3>Contact Us</h3>
+        <p>Toll Free: 1800 889 9888, 1800 425 4300</p>
+        <p>Email: <a href="mailto:info@srec.ac.in" class="text-white">info@srec.ac.in</a></p>
+        <p>Address: Sri Ramakrishna Engineering College, Vattamalaipalayam, N.G.G.O Colony (Post), Coimbatore - 641 022, Tamil Nadu, India</p>
+        <p>©2020 - 2024. Sri Ramakrishna Engineering College. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

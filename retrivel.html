@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrieve Data</title>
+    <style>
+        body, h1, form, select, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], input[type="date"], select, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .checkbox-group {
+            display: none; /* Hide checkboxes initially */
+            margin-top: 10px;
+        }
+
+        .checkbox-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .toggle-arrow {
+            cursor: pointer;
+            font-size: 18px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        /* Additional styling for results table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Retrieve Data</h1>
+        <form id="retrieve-form" action="/retrieve-data" method="POST">
+            <div class="form-group">
+                <label for="type">Select Type:</label>
+                <select id="type" name="type" required onchange="updateOptions(this.value)">
+                    <option value="">Select Type</option>
+                    <option value="patent">Patent</option>
+                    <option value="designpatent">Design Patent</option>
+                    <option value="copyright">Copyright</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="status-container" style="display: none;">
+                <label for="status">Select Status:</label>
+                <select id="status" name="status" required></select>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Select Duration:</label>
+                <select id="duration" name="duration" required onchange="togglePeriodFields(this.value)">
+                    <option value="">Select Duration</option>
+                    <option value="academic_year">Academic Year</option>
+                    <option value="specify_period">Specify the Period</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="academic-year-group" style="display: none;">
+                <label for="academic_year">Academic Year:</label>
+                <input type="text" id="academic_year" name="academic_year" placeholder="e.g., 2024-2025" />
+            </div>
+
+            <div id="period-group" style="display: none;">
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" />
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" />
+                </div>
+            </div>
+
+            <!-- Department dropdown with hidden checkbox group -->
+            <div class="form-group">
+                <label for="department">
+                    Select Department(s): 
+                    <span class="toggle-arrow" onclick="toggleCheckboxes()">&#9660;</span> <!-- Arrow down icon -->
+                </label>
+                <div class="checkbox-group" id="checkbox-group">
+                    <label><input type="checkbox" name="department[]" value="CSE"> CSE</label>
+                    <label><input type="checkbox" name="department[]" value="IT"> IT</label>
+                    <label><input type="checkbox" name="department[]" value="ECE"> ECE</label>
+                    <label><input type="checkbox" name="department[]" value="EEE"> EEE</label>
+                    <label><input type="checkbox" name="department[]" value="R&A"> R&A</label>
+                    <label><input type="checkbox" name="department[]" value="E&I"> E&I</label>
+                    <label><input type="checkbox" name="department[]" value="BME"> BME</label>
+                    <label><input type="checkbox" name="department[]" value="Aeronautical Engineering"> Aeronautical Engineering</label>
+                    <label><input type="checkbox" name="department[]" value="MECH"> MECH</label>
+                    <label><input type="checkbox" name="department[]" value="AIDS"> AIDS</label>
+                    <label><input type="checkbox" name="department[]" value="CIVIL"> CIVIL</label>
+                </div>
+            </div>
+
+            <input type="hidden" name="countOnly" id="countOnly" value="0">
+
+            <!-- Count button -->
+            <button type="button" onclick="getCount()">Get Count</button>
+            <button type="submit">Retrieve Data</button>
+        </form>
+
+        <div id="results" style="display: none;">
+            <h2>Results</h2>
+            <table border="1" id="results-table">
+                <thead>
+                    <tr>
+                        <th>Applicant Name</th>
+                        <th>Application Number</th>
+                        <th>Title of Invention</th>
+                        <th>Date of Filing</th>
+                        <th>Academic Year</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="count-results" style="display: none;">
+            <h2>Count Result</h2>
+            <p id="count-text"></p>
+        </div>
+    </div>
+
+    <script>
+        async function getCount() {
+            const formData = new FormData(document.getElementById('retrieve-form'));
+            const response = await fetch('/get-count', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            document.getElementById('count-results').style.display = 'block';
+            document.getElementById('count-text').innerText = `Count: ${result.count}`;
+        }
+
+        async function updateOptions(selectedType) {
+            const statusDropdown = document.getElementById('status');
+            statusDropdown.innerHTML = ''; // Clear previous options
+            const statusOptions = {
+                patent: ['Filed', 'Granted', 'Published'],
+                designpatent: ['Filed', 'Granted'],
+                copyright: ['Registered', 'Pending']
+            };
+
+            if (statusOptions[selectedType]) {
+                statusOptions[selectedType].forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.toLowerCase();
+                    opt.innerHTML = option;
+                    statusDropdown.appendChild(opt);
+                });
+                document.getElementById('status-container').style.display = 'block'; // Show status dropdown
+            } else {
+                document.getElementById('status-container').style.display = 'none'; // Hide if no valid type
+            }
+        }
+
+        document.getElementById('retrieve-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+            const formData = new FormData(event.target);
+            const response = await fetch(event.target.action, {
+                method: event.target.method,
+                body: formData,
+            });
+            const data = await response.json();
+            showResults(data);
+        });
+
+        function showResults(data) {
+            const resultsTableBody = document.getElementById('results-table').querySelector('tbody');
+            resultsTableBody.innerHTML = ''; // Clear previous results
+            data.results.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.applicantName}</td>
+                    <td>${record.applicationNumber}</td>
+                    <td>${record.title}</td>
+                    <td>${record.date}</td>
+                    <td>${record.academicYear}</td>
+                    <td>${record.department.join(', ')}</td>
+                `;
+                resultsTableBody.appendChild(row);
+            });
+            document.getElementById('results').style.display = 'block'; // Show results section
+        }
+
+        function toggleCheckboxes() {
+            const checkboxGroup = document.getElementById('checkbox-group');
+            checkboxGroup.style.display = checkboxGroup.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function togglePeriodFields(value) {
+            const academicYearGroup = document.getElementById('academic-year-group');
+            const periodGroup = document.getElementById('period-group');
+            if (value === 'academic_year') {
+                academicYearGroup.style.display = 'block';
+                periodGroup.style.display = 'none';
+            } else if (value === 'specify_period') {
+                academicYearGroup.style.display = 'none';
+                periodGroup.style.display = 'block';
+            } else {
+                academicYearGroup.style.display = 'none';
+                periodGroup.style.display = 'none';
+            }
+        }
+
+        function validateForm() {
+            // Add validation logic if needed
+        }
+    </script>
+</body>
+</html>
