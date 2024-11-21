@@ -392,58 +392,134 @@ window.onload = handleFormSubmissions;
                     <button type="submit">Submit</button>
                 </div>
                 <div id="message"></div>
-
             </form>
-    
+        </div>
+        <script>
+            document.getElementById('upload-file').addEventListener('change', function () {
+                const fileInput = this; // Reference to the file input
+                const file = fileInput.files[0]; // Get the selected file
+                const message = document.getElementById('message');
+        
+                if (file) {
+                    const fileSizeInKB = file.size / 1024; // Convert file size to KB
+                    if (fileSizeInKB > 80) {
+                        // Show error message and clear the file input
+                        message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                        message.style.color = 'red';
+                        fileInput.value = ''; // Clear the file input
+                    } else {
+                        // Show success message
+                        message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                        message.style.color = 'green';
+                    }
+                }
+            });
+        
+            // Additional validation on form submit
+            document.getElementById('filed-form').addEventListener('submit', function (e) {
+                const fileInput = document.getElementById('upload-file');
+                const file = fileInput.files[0];
+                const message = document.getElementById('message');
+        
+                if (file) {
+                    const fileSizeInKB = file.size / 1024;
+                    if (fileSizeInKB > 80) {
+                        e.preventDefault(); // Prevent form submission
+                        message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                        message.style.color = 'red';
+                    }
+                }
+            });
+        </script>
             <!-- Published Form -->
-            <form id="published-form" class="form-group" action="/submitPublishedPatent" enctype="multipart/form-data" method="POST" style="display: none;">
-                <h3>Published Patent</h3>
-                <div class="form-group">
-                    <label for="application-number">Application Number:</label>
-                    <input type="text" id="application-number" name="applicationNumber" required />
-                </div>
-                <div class="form-group">
-                    <label for="applicant-name">Applicant Name/Inventors:</label>
-                    <input type="text" id="applicant-name" name="applicantName" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="title-of-invention">Title of Invention:</label>
-                    <input type="text" id="title-of-invention" name="titleOfInvention" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="date-of-publication">Date of Publication:</label>
-                    <input type="date" id="date-of-publication" name="dateOfPublication" required />
-                </div>
-                <div class="form-group">
-                    <label for="academic-year">Academic Year:</label>
-                    <input type="text" id="academic-year" name="academicYear" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="department">Choose your options:</label>
-                    <select id="department" name="department[]" multiple="multiple" class="select2" disabled>
-                        <option value="CSE">CSE</option>
-                        <option value="IT">IT</option>
-                        <option value="ECE">ECE</option>
-                        <option value="EEE">EEE</option>
-                        <option value="E&I">E&I</option>
-                        <option value="R&A">R&A</option>
-                        <option value="BME">BME</option>
-                        <option value="MECH">MECH</option>
-                        <option value="CIVIL">CIVIL</option>
-                        <option value="Aeronautical Engineering">Aeronautical Engineering</option>
-                        <option value="AIDS">AIDS</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="upload-file">Upload File :</label>
-                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
-                </div>
-                <div class="form-group">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+<form id="published-form" class="form-group" action="/submitPublishedPatent" enctype="multipart/form-data" method="POST" style="display: none;">
+    <h3>Published Patent</h3>
+    <div class="form-group">
+        <label for="application-number">Application Number:</label>
+        <input type="text" id="application-number" name="applicationNumber" required />
+    </div>
+    <div class="form-group">
+        <label for="applicant-name">Applicant Name/Inventors:</label>
+        <input type="text" id="applicant-name" name="applicantName" readonly />
+    </div>
+    <div class="form-group">
+        <label for="title-of-invention">Title of Invention:</label>
+        <input type="text" id="title-of-invention" name="titleOfInvention" readonly />
+    </div>
+    <div class="form-group">
+        <label for="date-of-publication">Date of Publication:</label>
+        <input type="date" id="date-of-publication" name="dateOfPublication" required />
+    </div>
+    <div class="form-group">
+        <label for="academic-year">Academic Year:</label>
+        <input type="text" id="academic-year" name="academicYear" readonly />
+    </div>
+    <div class="form-group">
+        <label for="department">Choose your options:</label>
+        <select id="department" name="department[]" multiple="multiple" class="select2" disabled>
+            <option value="CSE">CSE</option>
+            <option value="IT">IT</option>
+            <option value="ECE">ECE</option>
+            <option value="EEE">EEE</option>
+            <option value="E&I">E&I</option>
+            <option value="R&A">R&A</option>
+            <option value="BME">BME</option>
+            <option value="MECH">MECH</option>
+            <option value="CIVIL">CIVIL</option>
+            <option value="Aeronautical Engineering">Aeronautical Engineering</option>
+            <option value="AIDS">AIDS</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="published-upload-file">Upload File :</label>
+        <input type="file" id="published-upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+    </div>
+    <div class="form-group">
+        <button type="submit">Submit</button>
+    </div>
+    <div id="published-message"></div>
+</form>
+<script>
+    // File size validation for the Published Patent form
+    document.getElementById('published-upload-file').addEventListener('change', function () {
+        const fileInput = this; // Reference to the file input
+        const file = fileInput.files[0]; // Get the selected file
+        const message = document.getElementById('published-message'); // Message element
 
-            <!-- Granted Form -->
+        if (file) {
+            const fileSizeInKB = file.size / 1024; // Convert file size to KB
+            if (fileSizeInKB > 80) {
+                // Show error message and clear the file input
+                message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                message.style.color = 'red';
+                fileInput.value = ''; // Clear the file input
+            } else {
+                // Show success message
+                message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                message.style.color = 'green';
+            }
+        }
+    });
+
+    // Additional validation on form submit
+    document.getElementById('published-form').addEventListener('submit', function (e) {
+        const fileInput = document.getElementById('published-upload-file'); // File input element
+        const file = fileInput.files[0]; // Get the selected file
+        const message = document.getElementById('published-message'); // Message element
+
+        if (file) {
+            const fileSizeInKB = file.size / 1024; // Convert file size to KB
+            if (fileSizeInKB > 80) {
+                e.preventDefault(); // Prevent form submission
+                message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                message.style.color = 'red';
+            }
+        }
+    });
+</script>
+
+
+<!-- Granted Form -->
             <form id="granted-form" class="form-group" action="/submitGrantedPatent" enctype="multipart/form-data" method="POST" style="display: none;">
                 <h3>Granted Patent</h3>
                 <div class="form-group">
@@ -487,14 +563,54 @@ window.onload = handleFormSubmissions;
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="upload-file">Upload File :</label>
-                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                    <label for="granted-upload-file">Upload File :</label>
+                    <input type="file" id="granted-upload-file" name="uploadFile" accept="image/*,application/pdf" required />
                 </div>
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
+                <div id="granted-message"></div>
             </form>
         </div>
+        <script>
+           // File size validation for the Published Patent form
+    document.getElementById('granted-upload-file').addEventListener('change', function () {
+        const fileInput = this; // Reference to the file input
+        const file = fileInput.files[0]; // Get the selected file
+        const message = document.getElementById('granted-message'); // Message element
+
+        if (file) {
+            const fileSizeInKB = file.size / 1024; // Convert file size to KB
+            if (fileSizeInKB > 80) {
+                // Show error message and clear the file input
+                message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                message.style.color = 'red';
+                fileInput.value = ''; // Clear the file input
+            } else {
+                // Show success message
+                message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                message.style.color = 'green';
+            }
+        }
+    });
+
+    // Additional validation on form submit
+    document.getElementById('granted-form').addEventListener('submit', function (e) {
+        const fileInput = document.getElementById('granted-upload-file'); // File input element
+        const file = fileInput.files[0]; // Get the selected file
+        const message = document.getElementById('granted-message'); // Message element
+
+        if (file) {
+            const fileSizeInKB = file.size / 1024; // Convert file size to KB
+            if (fileSizeInKB > 80) {
+                e.preventDefault(); // Prevent form submission
+                message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                message.style.color = 'red';
+            }
+        }
+    });
+        </script>
+        
     </section>
 
 
@@ -552,13 +668,51 @@ window.onload = handleFormSubmissions;
                 </div>
                 <div class="form-group">
                     <label for="upload-file">Upload File:</label>
-                    <input type="file" id="upload-file" name="uploadFile" accept="image/*,application/pdf" required />
+                    <input type="file" id="design-upload-file" name="uploadFile" accept="image/*,application/pdf" required />
                 </div>
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
+                <div id="design-message"></div>
             </form>
-    
+            <script>
+                // File size validation for the Published Patent form
+         document.getElementById('design-upload-file').addEventListener('change', function () {
+             const fileInput = this; // Reference to the file input
+             const file = fileInput.files[0]; // Get the selected file
+             const message = document.getElementById('design-message'); // Message element
+     
+             if (file) {
+                 const fileSizeInKB = file.size / 1024; // Convert file size to KB
+                 if (fileSizeInKB > 80) {
+                     // Show error message and clear the file input
+                     message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                     message.style.color = 'red';
+                     fileInput.value = ''; // Clear the file input
+                 } else {
+                     // Show success message
+                     message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                     message.style.color = 'green';
+                 }
+             }
+         });
+     
+         // Additional validation on form submit
+         document.getElementById('designfiled-form').addEventListener('submit', function (e) {
+             const fileInput = document.getElementById('design-upload-file'); // File input element
+             const file = fileInput.files[0]; // Get the selected file
+             const message = document.getElementById('design-message'); // Message element
+     
+             if (file) {
+                 const fileSizeInKB = file.size / 1024; // Convert file size to KB
+                 if (fileSizeInKB > 80) {
+                     e.preventDefault(); // Prevent form submission
+                     message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                     message.style.color = 'red';
+                 }
+             }
+         });
+             </script>
             <!-- Design Registered Form -->
             <form id="designregistered-form" class="form-group" action="/submitDesignRegistered" method="POST" enctype="multipart/form-data" style="display: none;">
                 <h3>Design Registered Patent</h3>
@@ -606,8 +760,47 @@ window.onload = handleFormSubmissions;
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
+                <div id="designreg-message"></div>
             </form>
         </div>
+        <script>
+            // File size validation for the Published Patent form
+     document.getElementById('upload-file-registered').addEventListener('change', function () {
+         const fileInput = this; // Reference to the file input
+         const file = fileInput.files[0]; // Get the selected file
+         const message = document.getElementById('designreg-message'); // Message element
+ 
+         if (file) {
+             const fileSizeInKB = file.size / 1024; // Convert file size to KB
+             if (fileSizeInKB > 80) {
+                 // Show error message and clear the file input
+                 message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                 message.style.color = 'red';
+                 fileInput.value = ''; // Clear the file input
+             } else {
+                 // Show success message
+                 message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                 message.style.color = 'green';
+             }
+         }
+     });
+ 
+     // Additional validation on form submit
+     document.getElementById('designregistered-form').addEventListener('submit', function (e) {
+         const fileInput = document.getElementById('upload-file-registered'); // File input element
+         const file = fileInput.files[0]; // Get the selected file
+         const message = document.getElementById('designreg-message'); // Message element
+ 
+         if (file) {
+             const fileSizeInKB = file.size / 1024; // Convert file size to KB
+             if (fileSizeInKB > 80) {
+                 e.preventDefault(); // Prevent form submission
+                 message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                 message.style.color = 'red';
+             }
+         }
+     });
+         </script>
     </section>
 
     <section id="copyright" class="section">
@@ -669,7 +862,46 @@ window.onload = handleFormSubmissions;
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
+                <div id="copy-message"></div>
             </form>
+            <script>
+                // File size validation for the Published Patent form
+         document.getElementById('copyright-upload-file-filed').addEventListener('change', function () {
+             const fileInput = this; // Reference to the file input
+             const file = fileInput.files[0]; // Get the selected file
+             const message = document.getElementById('copy-message'); // Message element
+     
+             if (file) {
+                 const fileSizeInKB = file.size / 1024; // Convert file size to KB
+                 if (fileSizeInKB > 80) {
+                     // Show error message and clear the file input
+                     message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                     message.style.color = 'red';
+                     fileInput.value = ''; // Clear the file input
+                 } else {
+                     // Show success message
+                     message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                     message.style.color = 'green';
+                 }
+             }
+         });
+     
+         // Additional validation on form submit
+         document.getElementById('copyright-filed-form').addEventListener('submit', function (e) {
+             const fileInput = document.getElementById('copyright-upload-file-filed'); // File input element
+             const file = fileInput.files[0]; // Get the selected file
+             const message = document.getElementById('copy-message'); // Message element
+     
+             if (file) {
+                 const fileSizeInKB = file.size / 1024; // Convert file size to KB
+                 if (fileSizeInKB > 80) {
+                     e.preventDefault(); // Prevent form submission
+                     message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                     message.style.color = 'red';
+                 }
+             }
+         });
+             </script>
     
             <!-- Registered Form -->
             <form id="copyright-registered-form" class="form-group" action="/submitRegisteredCopyright" enctype="multipart/form-data" method="POST" style="display: none;">
@@ -717,8 +949,48 @@ window.onload = handleFormSubmissions;
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
+                <div id="copyreg-message"></div>
             </form>
         </div>
+        <script>
+            // File size validation for the Published Patent form
+     document.getElementById('copyright-upload-file-registered').addEventListener('change', function () {
+         const fileInput = this; // Reference to the file input
+         const file = fileInput.files[0]; // Get the selected file
+         const message = document.getElementById('copyreg-message'); // Message element
+ 
+         if (file) {
+             const fileSizeInKB = file.size / 1024; // Convert file size to KB
+             if (fileSizeInKB > 80) {
+                 // Show error message and clear the file input
+                 message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                 message.style.color = 'red';
+                 fileInput.value = ''; // Clear the file input
+             } else {
+                 // Show success message
+                 message.textContent = `File size is valid (${fileSizeInKB.toFixed(2)} KB).`;
+                 message.style.color = 'green';
+             }
+         }
+     });
+ 
+     // Additional validation on form submit
+     document.getElementById('copyright-registered-form').addEventListener('submit', function (e) {
+         const fileInput = document.getElementById('copyright-upload-file-registered'); // File input element
+         const file = fileInput.files[0]; // Get the selected file
+         const message = document.getElementById('copyreg-message'); // Message element
+ 
+         if (file) {
+             const fileSizeInKB = file.size / 1024; // Convert file size to KB
+             if (fileSizeInKB > 80) {
+                 e.preventDefault(); // Prevent form submission
+                 message.textContent = `File size is too large (${fileSizeInKB.toFixed(2)} KB). Maximum allowed size is 80 KB.`;
+                 message.style.color = 'red';
+             }
+         }
+     });
+         </script>
+
     </section>
     <section id="retrieve" class="section">
         <h2>Retrieve Files</h2>
