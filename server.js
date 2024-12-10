@@ -5,7 +5,6 @@ const cors = require('cors');
 const multer = require('multer'); // Add multer for file uploads
 const path = require('path'); // Import path module
 const fs = require('fs'); // Import fs for filesystem operations
-require('dotenv').config(); // Load environment variables from a .env file
 
 // Initialize Express
 const app = express();
@@ -20,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect('mongodb://localhost:27017/ipcell', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -182,7 +181,7 @@ const GrantedPatent = mongoose.model('Granted', grantedSchema);
 app.get('/fetchPatentData', async (req, res) => {
     const { applicationNumber } = req.query;
     try {
-        const patentData = await FiledPatent.findOne({ applicationNumber });
+        const patentData = await FiledPatent.findOne({ applicationNumber }).select('-academicYear');
         if (patentData) {
             res.status(200).json(patentData);
         } else {
@@ -192,6 +191,7 @@ app.get('/fetchPatentData', async (req, res) => {
         res.status(500).json({ message: 'Error fetching data.' });
     }
 });
+
 
 // Save Filed Patent Data
 app.post('/submitPatent', upload.single('uploadFile'), async (req, res) => {
@@ -238,7 +238,7 @@ app.post('/submitPublishedPatent', upload.single('uploadFile'), async (req, res)
           applicantName: filedPatent.applicantName, // Corrected from 'filed' to 'filedPatent'
           titleOfInvention: filedPatent.titleOfInvention, // Corrected from 'filed' to 'filedPatent'
           dateOfPublication,
-          academicYear: filedPatent.academicYear, // Corrected from 'filed' to 'filedPatent'
+          academicYear:filedPatent.academicYear, // Corrected from 'filed' to 'filedPatent'
           department: filedPatent.department, // Corrected from 'filed' to 'filedPatent'
           fileName: req.file ? req.file.originalname : null // Save the filename if a file is uploaded
       });
@@ -314,7 +314,7 @@ app.get('/fetchDesignPatentData', async (req, res) => {
     const { designNumber } = req.query;
 
     try {
-        const designData = await DesignFiled.findOne({ designNumber });
+        const designData = await DesignFiled.findOne({ designNumber }).select('-academicYear');
         if (designData) {
             res.status(200).json(designData);
         } else {
@@ -331,7 +331,7 @@ app.post('/submitDesignFiled', upload.single('uploadFile'), async (req, res) => 
              // Validate design number format
 const designNumberPattern = /^\d{6}-\d{3}$/;
 if (!designNumberPattern.test(designNumber)) {
-  return res.status(400).send('Please enter a valid design number with hyphens (e.g., 1234-5678-9012)');
+  return res.status(400).send('Please enter a valid design number with hyphens');
 }  
 
     try {
@@ -373,7 +373,7 @@ app.post('/submitDesignRegistered', upload.single('uploadFile'), async (req, res
 
         const designNumberPattern = /^\d{6}-\d{3}$/;
         if (!designNumberPattern.test(designNumber)) {
-          return res.status(400).send('Please enter a valid design number with hyphens (e.g., 1234-5678-9012)');
+          return res.status(400).send('Please enter a valid design number with hyphens');
         }
         
 
@@ -425,7 +425,7 @@ const CopyrightRegistered = mongoose.model('CopyrightRegistered', copyrightRegis
 app.get('/fetchCopyrightData', async (req, res) => {
     const { registrationNumber } = req.query;
     try {
-        const copyrightData = await CopyrightFiled.findOne({ registrationNumber });
+        const copyrightData = await CopyrightFiled.findOne({ registrationNumber }).select('-academicYear');
         if (copyrightData) {
             res.status(200).json(copyrightData);
         } else {
