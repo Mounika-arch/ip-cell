@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer'); // Add multer for file uploads
-const path = require('path'); // Import path module
-const fs = require('fs'); // Import fs for filesystem operations
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config(); // Load environment variables
 
 // Initialize Express
 const app = express();
@@ -19,7 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/ipcell', {
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ipcell';
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
