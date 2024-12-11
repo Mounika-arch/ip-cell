@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/ipcell', {
+mongoose.connect('mongodb+srv://ipcell:ipcell@cluster0.znwexop.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
