@@ -19,10 +19,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://ipcell:ipcell@cluster0.znwexop.mongodb.net/test', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+
+const mongoUri = 'mongodb+srv://ipcell:ipcell@cluster0.znwexop.mongodb.net/test?retryWrites=true&w=majority';
+
+mongoose
+  .connect(mongoUri)
+  .then(() => {
+    console.log('Connected to MongoDB successfully');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
 
 // Ensure the 'uploads' directory exists
 const uploadDir = path.join(__dirname, 'uploads');
